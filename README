@@ -1,0 +1,38 @@
+Tema 3 PC, Popa Rares Teodor
+
+poll - for multiplexing between server and stdin
+
+queue - used for keeping tasks that have been sent to the server and an answer is awaited,
+when the server response we check the front of the tasks and find for which command is the 
+answer for
+
+get_json_value - parses which gets the value of a key, only when the key does not contain an
+                array of values, this works just fine for this homework for we do not receive
+                json payloads where a key has an array, and for the array at get_books, all
+                keys have single char values, except for id, but my parser can get either text
+                or numbers
+
+command:
+    - REGISTER: wait for the user to input an username and password, 
+        read them and then transfer them to the server, upon analyzing the
+        server response we find wether the register of account worked or the 
+        username is already used
+    - LOGIN: repeat almost the same process as for register but change the url
+        path, and the answer will be either we are connected or the credentials were wrong,
+        if the connection succeeded we save the cookie
+    - ENTER_LIBRARY: we send the server the cookie if we are logged in, or just pass to
+        the user that he must connect first
+    - GET_BOOKS: send the server the message, and upon the response we go through the 
+        json payload and extract the title and id with the get_json_value function until
+        we finish the books and print them to the user
+    - GET_BOOK: we get the id and send the server the message at the correct url,
+        and upon receiving the payload from the server we parse from the json the values
+        for the title, author, genre, publihser and id
+    - ADD_BOOK: we read the information the user offers us and send the book to the
+        server, upon receiving an answer we parse the error value of the json payload if there
+        is one, otherwise we announce to the user that the book has been added successfully
+    - DELETE_BOOK: we read the id, send the message at the correct url, and wait for the answer
+        upon an error in the response we parse the value and print it, otherwise we print the
+        successful deletion
+    - LOGOUT: we send the message and wait for the response and print the error if it contains
+        one, or print the successful logout
